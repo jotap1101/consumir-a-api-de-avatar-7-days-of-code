@@ -1,0 +1,76 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+    <!-- Conteúdo principal -->
+    <main class="container mt-3 mb-5">
+        <div class="table-responsive">
+            <table class="table table-bordered table-light table-striped table-hover align-middle">
+                <thead class="text-center">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Affiliation</th>
+                        <th scope="col">Allies</th>
+                        <th scope="col">Enemies</th>
+                        <th scope="col">Photo</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider text-center">
+                    {% for character in characters %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ character.name }}</td>
+                            <td>
+                                {% if character.affiliation %}
+                                    {{ character.affiliation }}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if character.allies %}
+                                    {% for ally in character.allies %}
+                                        {{ ally }}<br>
+                                    {% endfor %}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if character.enemies %}
+                                    {% for enemy in character.enemies %}
+                                        {{ enemy }}<br>
+                                    {% endfor %}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if character.photoUrl %}
+                                    <img src="{{ character.photoUrl }}" alt="character Photo" class="img-thumbnail" width="100">
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <nav aria-label="Page navigation example mt-4">
+                <ul class="pagination justify-content-center">
+                    {% if page > 1 %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page|add:"-1" }}">Anterior</a>
+                    </li>
+                    {% endif %}
+                    <li class="page-item disabled">
+                        <span class="page-link">Página {{ page }}</span>
+                    </li>
+                    <li class="page-item {% if not has_next %}{% endif %}">
+                        <a class="page-link" href="?page={{ page|add:"1" }}">Próxima</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </main>
+{% endblock content %}
